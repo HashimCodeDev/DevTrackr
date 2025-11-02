@@ -28,7 +28,7 @@ export default function Login() {
 
 			if (response.ok) {
 				localStorage.setItem("token", data.token);
-				router.push("/dashboard");
+				router.push("/projects");
 			} else {
 				setError(data.error || "Login failed");
 			}
