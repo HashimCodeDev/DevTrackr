@@ -5,6 +5,11 @@
 
 @theme inline {
 	--color-custom-dark: #021024;
+	--color-palette-darkest: #021024;
+	--color-palette-dark: #052659;
+	--color-palette-medium: #5483B3;
+	--color-palette-light: #7DA0CA;
+	--color-palette-lightest: #C1E8FF;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
