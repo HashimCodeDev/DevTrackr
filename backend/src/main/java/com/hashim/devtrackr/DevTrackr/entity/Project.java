@@ -29,8 +29,7 @@ public class Project {
     @Column(nullable = false)
     private ProjectStatus status = ProjectStatus.PENDING;
 
-    @NotNull(message = "Due date is required")
-    @Column(name = "due_date", nullable = false)
+    @Column(name = "due_date")
     private LocalDate dueDate;
 
     @CreationTimestamp
