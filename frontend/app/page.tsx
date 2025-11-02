@@ -4,24 +4,26 @@ import PixelBlast from "@/components/PixelBlast";
 
 export default function Home() {
 	return (
-		<div className="relative min-h-screen bg-custom-dark select-none">
+		<div className="relative min-h-screen bg-custom-dark select-none overflow-hidden">
 			{/* Vignette Effect */}
 			<div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60 pointer-events-none z-20" />
-			<PixelBlast
-				variant="circle"
-				pixelSize={6}
-				color="#c1e8ff"
-				patternScale={3}
-				patternDensity={1.2}
-				pixelSizeJitter={0.5}
-				enableRipples
-				rippleSpeed={0.4}
-				rippleThickness={0.12}
-				rippleIntensityScale={1.5}
-				speed={0.6}
-				edgeFade={0.25}
-				transparent
-			/>
+			<div className="absolute inset-0">
+				<PixelBlast
+					variant="circle"
+					pixelSize={6}
+					color="#c1e8ff"
+					patternScale={3}
+					patternDensity={1.2}
+					pixelSizeJitter={0.5}
+					enableRipples
+					rippleSpeed={0.4}
+					rippleThickness={0.12}
+					rippleIntensityScale={1.5}
+					speed={0.6}
+					edgeFade={0.25}
+					transparent
+				/>
+			</div>
 
 			{/* Navigation */}
 			<div className="absolute top-8 left-0 w-full h-15 z-0 pointer-events-none">
