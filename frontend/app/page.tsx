@@ -2,7 +2,6 @@
 import Link from "next/link";
 import PixelBlast from "@/components/PixelBlast";
 
-
 export default function Home() {
 	return (
 		<div className="relative min-h-screen bg-custom-dark select-none">
