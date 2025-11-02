@@ -1,153 +1,73 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import ProjectForm from '@/components/ProjectForm';
-import { ProjectFormData } from '@/types/project';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  status: 'PENDING' | 'ACTIVE' | 'COMPLETED';
-  dueDate: string;
-  createdAt: string;
-  updatedAt: string;
-}
+"use client";
 
 export default function Dashboard() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+	const stats = [
+		{ title: "Active Projects", value: "12", change: "+2" },
+		{ title: "Completed Tasks", value: "48", change: "+8" },
+		{ title: "Team Members", value: "6", change: "+1" },
+		{ title: "Pending Reviews", value: "3", change: "-2" },
+	];
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+	const recentProjects = [
+		{ name: "E-commerce Platform", status: "Active", progress: 75 },
+		{ name: "Mobile App", status: "In Progress", progress: 45 },
+		{ name: "API Gateway", status: "Review", progress: 90 },
+	];
 
-  const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    return {
-      'Content-Type': 'application/json',
-      ...(token && { 'Authorization': `Bearer ${token}` })
-    };
-  };
+	return (
+		<div className="min-h-screen bg-palette-darkest">
+			{/* Header */}
+			<div className="bg-palette-dark/50 border-b border-palette-medium/20 px-8 py-6">
+				<h1 className="text-3xl font-bold text-palette-lightest">Dashboard</h1>
+				<p className="text-palette-light mt-1">Welcome back to DevTrackr</p>
+			</div>
 
-  const fetchProjects = async () => {
-    try {
-      const response = await fetch('/api/projects', {
-        headers: getAuthHeaders()
-      });
-      const data = await response.json();
-      setProjects(data.content || data);
-    } catch (error) {
-      console.error('Failed to fetch projects:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+			<div className="p-8">
+				{/* Stats Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+					{stats.map((stat, index) => (
+						<div key={index} className="bg-palette-dark/50 border border-palette-medium/20 rounded-lg p-6">
+							<h3 className="text-palette-light text-sm font-medium">{stat.title}</h3>
+							<div className="flex items-end justify-between mt-2">
+								<span className="text-3xl font-bold text-palette-lightest">{stat.value}</span>
+								<span className={`text-sm ${stat.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+									{stat.change}
+								</span>
+							</div>
+						</div>
+					))}
+				</div>
 
-  const updateStatus = async (id: number, status: string) => {
-    try {
-      await fetch(`/api/projects/${id}/status`, {
-        method: 'PATCH',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(status),
-      });
-      fetchProjects();
-    } catch (error) {
-      console.error('Failed to update status:', error);
-    }
-  };
-
-  const createProject = async (data: ProjectFormData) => {
-    try {
-      await fetch('/api/projects', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(data),
-      });
-      setShowCreateModal(false);
-      fetchProjects();
-    } catch (error) {
-      console.error('Failed to create project:', error);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center">Loading...</div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <button 
-            onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Create Project
-          </button>
-        </div>
-        
-        {projects.length === 0 ? (
-          <div className="text-center text-gray-500 mt-8">
-            No projects found. Create your first project!
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {projects.map((project) => (
-                  <tr key={project.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{project.name}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-gray-600">{project.description}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {project.dueDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <select
-                        value={project.status}
-                        onChange={(e) => updateStatus(project.id, e.target.value)}
-                        className="px-3 py-1 border rounded text-sm"
-                      >
-                        <option value="PENDING">Pending</option>
-                        <option value="ACTIVE">Active</option>
-                        <option value="COMPLETED">Completed</option>
-                      </select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        
-        {showCreateModal && (
-          <ProjectForm
-            onSubmit={createProject}
-            onCancel={() => setShowCreateModal(false)}
-            isModal={true}
-          />
-        )}
-      </div>
-    </div>
-  );
+				{/* Recent Projects */}
+				<div className="bg-palette-dark/50 border border-palette-medium/20 rounded-lg p-6">
+					<h2 className="text-xl font-semibold text-palette-lightest mb-6">Recent Projects</h2>
+					<div className="space-y-4">
+						{recentProjects.map((project, index) => (
+							<div key={index} className="flex items-center justify-between p-4 bg-palette-darkest/50 rounded-lg">
+								<div className="flex-1">
+									<h3 className="font-medium text-palette-lightest">{project.name}</h3>
+									<span className={`inline-block px-2 py-1 rounded text-xs mt-1 ${
+										project.status === 'Active' ? 'bg-palette-medium text-palette-darkest' :
+										project.status === 'In Progress' ? 'bg-palette-light text-palette-darkest' :
+										'bg-palette-lightest text-palette-darkest'
+									}`}>
+										{project.status}
+									</span>
+								</div>
+								<div className="flex items-center gap-3">
+									<div className="w-24 bg-palette-dark rounded-full h-2">
+										<div 
+											className="bg-palette-medium h-2 rounded-full" 
+											style={{ width: `${project.progress}%` }}
+										/>
+									</div>
+									<span className="text-palette-light text-sm w-12">{project.progress}%</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
