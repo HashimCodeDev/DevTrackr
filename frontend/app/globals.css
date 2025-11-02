@@ -59,6 +59,10 @@
 	animation: fade-in 0.3s ease-out;
 }
 
+.bg-gradient-radial {
+	background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
 :root {
 	--radius: 0.625rem;
 	--background: oklch(1 0 0);
