@@ -17,7 +17,7 @@ export default function Home() {
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; name: string } | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  const { data: projects = [], isLoading } = useProjects(filters);
+  const { data: projects, isLoading } = useProjects(filters);
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
   const updateStatus = useUpdateProjectStatus();
@@ -90,11 +90,11 @@ export default function Home() {
         <ProjectFilters filters={filters} onFiltersChange={setFilters} />
 
         <ProjectList
-          projects={projects}
+          projects={projects || []}
           onStatusChange={handleStatusChange}
           onEdit={setEditingProject}
           onDelete={(id) => {
-            const project = projects.find(p => p.id === id);
+            const project = projects?.find(p => p.id === id);
             if (project) setDeleteConfirm({ id, name: project.name });
           }}
           isLoading={isLoading}
