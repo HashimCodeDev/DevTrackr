@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import Link from "next/link";
 import PixelBlast from "@/components/PixelBlast";
-import SplitText from "@/components/SplitText";
+
 
 export default function Home() {
 	return (
@@ -42,24 +42,18 @@ export default function Home() {
 				</div>
 
 				{/* Headline */}
-				<SplitText
-					text="Track Your Development Journey"
-					className="mt-4 text-white text-[clamp(2rem,4vw,2.6rem)] leading-[1.2] text-center tracking-[-2px] max-w-[18ch] font-bold"
-					delay={100}
-					duration={0.6}
-					ease="power3.out"
-					splitType="chars"
-					from={{ opacity: 1, y: 0 }}
-					to={{ opacity: 1, y: 0 }}
-					textAlign="center"
-					tag="h1"
-				/>
+				<h1 className="mt-4 text-white text-[clamp(2rem,4vw,2.6rem)] leading-[1.2] text-center tracking-[-2px] max-w-[18ch] font-bold">
+					Track Your Development Journey
+				</h1>
 
 				{/* CTA Buttons */}
 				<div className="flex gap-4 mt-8 items-center pointer-events-auto">
-					<button className="px-6 md:px-10 py-2 md:py-3 bg-white text-black rounded-[50px] text-sm font-medium border-none cursor-pointer hover:bg-gray-100 hover:-translate-y-0.5 transition-all duration-200">
+					<Link
+						href="/login"
+						className="px-6 md:px-10 py-2 md:py-3 bg-white text-black rounded-[50px] text-sm font-medium border-none cursor-pointer hover:bg-gray-100 hover:-translate-y-0.5 transition-all duration-200 inline-block"
+					>
 						Get Started
-					</button>
+					</Link>
 					<button className="px-6 md:px-10 py-2 md:py-3 rounded-[50px] text-sm font-medium bg-white/5 backdrop-blur-[10px] border border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] text-white/50 cursor-pointer hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-200">
 						Learn More
 					</button>
