@@ -5,6 +5,61 @@
 http://localhost:8080/api
 ```
 
+## Authentication
+
+All endpoints except `/auth/register` and `/auth/login` require authentication.
+Include the JWT token in the Authorization header:
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+## Authentication Endpoints
+
+### 1. Register User
+```
+POST /auth/register
+```
+
+**Request Body:**
+```json
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "username": "john_doe",
+  "email": "john@example.com"
+}
+```
+
+### 2. Login User
+```
+POST /auth/login
+```
+
+**Request Body:**
+```json
+{
+  "username": "john_doe",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "username": "john_doe",
+  "email": "john@example.com"
+}
+```
+
 ## Project Endpoints
 
 ### 1. Get All Projects (with pagination and filtering)
