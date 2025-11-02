@@ -1,5 +1,6 @@
 package com.hashim.devtrackr.DevTrackr.controller;
 
+import com.hashim.devtrackr.DevTrackr.dto.StatusUpdateRequest;
 import com.hashim.devtrackr.DevTrackr.entity.Project;
 import com.hashim.devtrackr.DevTrackr.entity.ProjectStatus;
 import com.hashim.devtrackr.DevTrackr.service.ProjectService;
@@ -58,8 +59,8 @@ public class ProjectController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Project> updateProjectStatus(@PathVariable Long id, @RequestBody ProjectStatus status) {
-        Project updatedProject = projectService.updateProjectStatus(id, status);
+    public ResponseEntity<Project> updateProjectStatus(@PathVariable Long id, @RequestBody StatusUpdateRequest request) {
+        Project updatedProject = projectService.updateProjectStatus(id, request.getStatus());
         return ResponseEntity.ok(updatedProject);
     }
 
