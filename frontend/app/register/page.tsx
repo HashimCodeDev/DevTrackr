@@ -58,7 +58,23 @@ export default function Register() {
 				{/* Glass Container */}
 				<div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
 					<div className="grid lg:grid-cols-2 min-h-[700px]">
-						{/* Left Side - Form */}
+						{/* Left Side - Image */}
+						<div className="relative bg-black/50 p-8 flex items-center justify-center">
+							<div className="absolute inset-0 bg-gradient-to-br from-gray-800/10 to-gray-900/10" />
+							<div className="relative z-10 text-center">
+								<div className="w-32 h-32 mx-auto mb-8 bg-white/5 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+									<svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+										<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</div>
+								<h2 className="text-3xl font-bold text-white mb-4">Start Your Journey</h2>
+								<p className="text-white/70 text-lg leading-relaxed">
+									Join thousands of developers who trust DevTrackr to manage their projects efficiently and effectively.
+								</p>
+							</div>
+						</div>
+
+						{/* Right Side - Form */}
 						<div className="p-8 lg:p-12 flex items-center">
 							<div className="w-full max-w-md mx-auto">
 								{/* Header */}
@@ -152,22 +168,6 @@ export default function Register() {
 										</Link>
 									</p>
 								</div>
-							</div>
-						</div>
-
-						{/* Right Side - Image */}
-						<div className="relative bg-black/50 p-8 flex items-center justify-center">
-							<div className="absolute inset-0 bg-gradient-to-br from-gray-800/10 to-gray-900/10" />
-							<div className="relative z-10 text-center">
-								<div className="w-32 h-32 mx-auto mb-8 bg-white/5 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
-									<svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
-										<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-									</svg>
-								</div>
-								<h2 className="text-3xl font-bold text-white mb-4">Start Your Journey</h2>
-								<p className="text-white/70 text-lg leading-relaxed">
-									Join thousands of developers who trust DevTrackr to manage their projects efficiently and effectively.
-								</p>
 							</div>
 						</div>
 					</div>
