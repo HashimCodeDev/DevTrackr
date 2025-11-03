@@ -21,7 +21,7 @@ public class JwtService {
     @Value("${jwt.expiration:86400000}")
     private Long jwtExpiration;
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -36,7 +36,7 @@ public class JwtService {
 
     private String buildToken(UserDetails userDetails, long expiration) {
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(userDetails.getUsername()) // This should be email since UserDetails.getUsername() returns email
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
@@ -44,8 +44,8 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String email = extractEmail(token);
+        return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
