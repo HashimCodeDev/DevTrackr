@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { authApi } from "@/lib/api";
 
 export default function Register() {
-	const [name, setName] = useState("");
+	const [username, setUserName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,23 +26,10 @@ export default function Register() {
 		}
 
 		try {
-			const response = await fetch("/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ name, email, password }),
-			});
-
-			const data = await response.json();
-
-			if (response.ok) {
-				localStorage.setItem("token", data.token);
-				router.push("/projects");
-			} else {
-				setError(data.error || "Registration failed");
-			}
+			await authApi.register({ username, email, password });
+			router.push("/projects");
 		} catch (err) {
-			setError("Network error");
-			console.error(err);
+			setError(err instanceof Error ? err.message : "Login failed");
 		} finally {
 			setLoading(false);
 		}
@@ -103,8 +91,8 @@ export default function Register() {
 										</label>
 										<input
 											type="text"
-											value={name}
-											onChange={(e) => setName(e.target.value)}
+											value={username}
+											onChange={(e) => setUserName(e.target.value)}
 											className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
 											placeholder="Enter your full name"
 											required
