@@ -29,6 +29,7 @@ public class ProjectController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required = false) ProjectStatus status) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Fetching projects - page: {}, size: {}, sortBy: {}, sortDir: {}, status: {}", 
                     page, size, sortBy, sortDir, status);
@@ -41,75 +42,92 @@ public class ProjectController {
                 projectService.getProjectsByStatus(status, pageable) :
                 projectService.getAllProjects(pageable);
             
-            log.info("Successfully fetched {} projects", projects.getTotalElements());
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully fetched {} projects in {}ms", projects.getTotalElements(), executionTime);
             return ResponseEntity.ok(projects);
         } catch (Exception e) {
-            log.error("Error fetching projects: {}", e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error fetching projects after {}ms: {}", executionTime, e.getMessage(), e);
             throw e;
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Fetching project with id: {}", id);
             Project project = projectService.getProjectById(id);
-            log.info("Successfully fetched project: {}", project.getName());
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully fetched project: {} in {}ms", project.getName(), executionTime);
             return ResponseEntity.ok(project);
         } catch (Exception e) {
-            log.error("Error fetching project with id {}: {}", id, e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error fetching project with id {} after {}ms: {}", id, executionTime, e.getMessage(), e);
             throw e;
         }
     }
 
     @PostMapping
     public ResponseEntity<Project> createProject(@Valid @RequestBody Project project) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Creating new project: {}", project.getName());
             Project createdProject = projectService.createProject(project);
-            log.info("Successfully created project with id: {}", createdProject.getId());
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully created project with id: {} in {}ms", createdProject.getId(), executionTime);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
         } catch (Exception e) {
-            log.error("Error creating project {}: {}", project.getName(), e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error creating project {} after {}ms: {}", project.getName(), executionTime, e.getMessage(), e);
             throw e;
         }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@PathVariable Long id, @Valid @RequestBody Project project) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Updating project with id: {}", id);
             Project updatedProject = projectService.updateProject(id, project);
-            log.info("Successfully updated project: {}", updatedProject.getName());
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully updated project: {} in {}ms", updatedProject.getName(), executionTime);
             return ResponseEntity.ok(updatedProject);
         } catch (Exception e) {
-            log.error("Error updating project with id {}: {}", id, e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error updating project with id {} after {}ms: {}", id, executionTime, e.getMessage(), e);
             throw e;
         }
     }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Project> updateProjectStatus(@PathVariable Long id, @RequestBody StatusUpdateRequest request) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Updating status for project id: {} to status: {}", id, request.getStatus());
             Project updatedProject = projectService.updateProjectStatus(id, request.getStatus());
-            log.info("Successfully updated project status for: {}", updatedProject.getName());
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully updated project status for: {} in {}ms", updatedProject.getName(), executionTime);
             return ResponseEntity.ok(updatedProject);
         } catch (Exception e) {
-            log.error("Error updating status for project id {}: {}", id, e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error updating status for project id {} after {}ms: {}", id, executionTime, e.getMessage(), e);
             throw e;
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
+        long startTime = System.currentTimeMillis();
         try {
             log.info("Deleting project with id: {}", id);
             projectService.deleteProject(id);
-            log.info("Successfully deleted project with id: {}", id);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.info("Successfully deleted project with id: {} in {}ms", id, executionTime);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.error("Error deleting project with id {}: {}", id, e.getMessage(), e);
+            long executionTime = System.currentTimeMillis() - startTime;
+            log.error("Error deleting project with id {} after {}ms: {}", id, executionTime, e.getMessage(), e);
             throw e;
         }
     }
