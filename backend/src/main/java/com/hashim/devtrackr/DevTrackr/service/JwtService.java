@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -43,9 +42,13 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String email = extractEmail(token);
-        return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, String email) {
+        final String tokenEmail = extractEmail(token);
+        boolean emailMatches = tokenEmail.equals(email);
+        boolean notExpired = !isTokenExpired(token);
+        System.out.println("Token email: " + tokenEmail + ", User email: " + email);
+        System.out.println("Email matches: " + emailMatches + ", Not expired: " + notExpired);
+        return emailMatches && notExpired;
     }
 
     private boolean isTokenExpired(String token) {
