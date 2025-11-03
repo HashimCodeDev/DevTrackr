@@ -59,25 +59,28 @@ export function DataTable<TData, TValue>({
 	});
 
 	return (
-		<div>
-			<div className="flex items-center py-4">
+		<div className="space-y-4">
+			<div className="flex items-center justify-between">
 				<Input
 					placeholder="Filter projects..."
 					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
 						table.getColumn("name")?.setFilterValue(event.target.value)
 					}
-					className="max-w-sm"
+					className="max-w-sm bg-background border-border"
 				/>
+				<div className="text-sm text-muted-foreground">
+					{table.getFilteredRowModel().rows.length} project(s)
+				</div>
 			</div>
-			<div className="overflow-hidden rounded-md border">
+			<div className="rounded-lg border border-border overflow-hidden">
 				<Table>
-					<TableHeader>
+					<TableHeader className="bg-muted/50">
 						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
+							<TableRow key={headerGroup.id} className="border-border hover:bg-transparent">
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead key={header.id} className="font-semibold">
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -96,6 +99,7 @@ export function DataTable<TData, TValue>({
 								<TableRow
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
+									className="border-border hover:bg-muted/30 data-[state=selected]:bg-muted/50"
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>
@@ -111,15 +115,21 @@ export function DataTable<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className="h-24 text-center"
+									className="h-24 text-center text-muted-foreground"
 								>
-									No results.
+									No projects found.
 								</TableCell>
 							</TableRow>
 						)}
 					</TableBody>
 				</Table>
-				<div className="flex items-center justify-end space-x-2 py-4">
+			</div>
+			<div className="flex items-center justify-between">
+				<div className="text-sm text-muted-foreground">
+					{table.getFilteredSelectedRowModel().rows.length} of{" "}
+					{table.getFilteredRowModel().rows.length} row(s) selected.
+				</div>
+				<div className="flex items-center space-x-2">
 					<Button
 						variant="outline"
 						size="sm"

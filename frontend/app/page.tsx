@@ -4,7 +4,7 @@ import PixelBlast from "@/components/PixelBlast";
 
 export default function Home() {
 	return (
-		<div className="relative min-h-screen bg-custom-dark select-none overflow-hidden">
+		<div className="relative min-h-screen bg-background select-none overflow-hidden">
 			{/* Vignette Effect */}
 			<div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60 pointer-events-none z-20" />
 			<div className="absolute inset-0">

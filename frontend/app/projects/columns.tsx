@@ -54,19 +54,15 @@ export const columns: ColumnDef<Project>[] = [
 		header: "Status",
 		cell: ({ row }) => {
 			const status = row.getValue("status") as string;
+			const statusColors = {
+				PENDING: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+				ACTIVE: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+				COMPLETED: "bg-green-500/10 text-green-500 border-green-500/20",
+			};
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="outline" size="sm">
-							{status}
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuItem>PENDING</DropdownMenuItem>
-						<DropdownMenuItem>ACTIVE</DropdownMenuItem>
-						<DropdownMenuItem>COMPLETED</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[status as keyof typeof statusColors]}`}>
+					{status}
+				</span>
 			);
 		},
 	},

@@ -1,5 +1,6 @@
 import { columns, Project } from "./columns";
 import { DataTable } from "./data-table";
+import Navigation from "@/components/Navigation";
 
 async function getData(): Promise<Project[]> {
 	// Fetch data from your API here.
@@ -41,9 +42,16 @@ export default async function ProjectPage() {
 	const data = await getData();
 
 	return (
-		<div className="flex flex-col h-screen bg-black/80">
-			<div className="flex flex-col relative top-20 h-3/4 w-3/4 mx-auto p-10 rounded-2xl bg-black/50 text-white">
-				<DataTable columns={columns} data={data} />
+		<div className="min-h-screen bg-background">
+			<Navigation />
+			<div className="container mx-auto py-8 px-4">
+				<div className="mb-8">
+					<h1 className="text-3xl font-bold text-foreground mb-2">Projects</h1>
+					<p className="text-muted-foreground">Manage and track your development projects</p>
+				</div>
+				<div className="bg-card border border-border rounded-lg p-6">
+					<DataTable columns={columns} data={data} />
+				</div>
 			</div>
 		</div>
 	);
