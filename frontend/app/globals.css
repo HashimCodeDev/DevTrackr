@@ -4,12 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-	--color-custom-dark: #021024;
-	--color-palette-darkest: #021024;
-	--color-palette-dark: #052659;
-	--color-palette-medium: #5483B3;
-	--color-palette-light: #7DA0CA;
-	--color-palette-lightest: #C1E8FF;
+	--color-palette-dark: #253745;
+	--color-palette-darkest: #06141b;
+	--color-palette-darker: #11212d;
+	--color-palette-medium: #4a5c6a;
+	--color-palette-light: #9ba8ab;
+	--color-palette-lightest: #ccd0cf;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
