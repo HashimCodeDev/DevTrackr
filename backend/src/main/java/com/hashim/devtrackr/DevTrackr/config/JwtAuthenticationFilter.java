@@ -28,27 +28,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
-        
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        
+
         jwt = authHeader.substring(7);
         username = jwtService.extractEmail(jwt);
-        
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             System.out.println("Extracted from JWT: " + username);
             try {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                if (jwtService.isTokenValid(jwt,username)) {
-                    System.out.println("Token is valid for user: " + username);
-                } else {
-                    System.out.println("Token is invalid for user: " + username);
-                }
                 if (jwtService.isTokenValid(jwt,username)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
