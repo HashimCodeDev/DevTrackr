@@ -34,6 +34,7 @@ export default function Login() {
 			}
 		} catch (err) {
 			setError("Network error");
+			console.error(err);
 		} finally {
 			setLoading(false);
 		}
@@ -83,7 +84,7 @@ export default function Login() {
 			{/* Login Form */}
 			<div className="absolute top-0 left-0 flex items-center justify-center w-full h-full z-10">
 				<SpotlightCard
-					className="w-full max-w-md mx-4 bg-[#021024]/90 backdrop-blur-[10px] border-[#5483B3]/20"
+					className="w-full max-w-md mx-4 bg-[#021024]/90 backdrop-blur-[10px] border-palette-medium/20"
 					spotlightColor="rgba(193, 232, 255, 0.15)"
 				>
 					<div className="text-center mb-8">
@@ -100,7 +101,7 @@ export default function Login() {
 								type="text"
 								value={username}
 								onChange={(e) => setUsername(e.target.value)}
-								className="w-full px-4 py-3 bg-[#052659]/50 backdrop-blur-[10px] border border-[#5483B3]/30 rounded-[12px] text-white placeholder-[#7DA0CA] focus:outline-none focus:ring-2 focus:ring-[#C1E8FF]/50 focus:border-[#C1E8FF]/50 transition-all"
+								className="w-full px-4 py-3 bg-palette-dark/50 backdrop-blur-[10px] border border-palette-medium/30 rounded-[12px] text-white placeholder-palette-light focus:outline-none focus:ring-2 focus:ring-palette-lightest/50 focus:border-palette-lightest/50 transition-all"
 								placeholder="Enter your username"
 								required
 							/>
@@ -114,14 +115,14 @@ export default function Login() {
 								type="password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
-								className="w-full px-4 py-3 bg-[#052659]/50 backdrop-blur-[10px] border border-[#5483B3]/30 rounded-[12px] text-white placeholder-[#7DA0CA] focus:outline-none focus:ring-2 focus:ring-[#C1E8FF]/50 focus:border-[#C1E8FF]/50 transition-all"
+								className="w-full px-4 py-3 bg-palette-dark/50 backdrop-blur-[10px] border border-palette-medium/30 rounded-[12px] text-white placeholder-palette-light focus:outline-none focus:ring-2 focus:ring-palette-lightest/50 focus:border-palette-lightest/50 transition-all"
 								placeholder="Enter your password"
 								required
 							/>
 						</div>
 
 						{error && (
-							<div className="text-rose-300 text-sm bg-rose-500/10 border border-rose-500/20 rounded-[8px] px-3 py-2">
+							<div className="text-rose-300 text-sm bg-rose-500/10 border border-rose-500/20 rounded-xl px-3 py-2">
 								{error}
 							</div>
 						)}
@@ -129,7 +130,7 @@ export default function Login() {
 						<button
 							type="submit"
 							disabled={loading}
-							className="w-full py-3 px-6 bg-gradient-to-r from-[#5483B3] to-[#7DA0CA] text-[#021024] rounded-[12px] text-base font-medium hover:from-[#7DA0CA] hover:to-[#C1E8FF] hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 transition-all duration-200 shadow-lg hover:shadow-[#C1E8FF]/25"
+							className="w-full py-3 px-6 bg-linear-to-r from-palette-medium to-palette-light text-[#021024] rounded-[12px] text-base font-medium hover:from-palette-light hover:to-palette-lightest hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 transition-all duration-200 shadow-lg hover:shadow-palette-lightest/25"
 						>
 							{loading ? "Signing in..." : "Sign In"}
 						</button>
@@ -140,7 +141,7 @@ export default function Login() {
 							Don&apos;t have an account?{" "}
 							<Link
 								href="/register"
-								className="text-[#7DA0CA] hover:text-[#C1E8FF] font-medium transition-colors"
+								className="text-palette-light hover:text-palette-lightest font-medium transition-colors"
 							>
 								Create Account
 							</Link>
