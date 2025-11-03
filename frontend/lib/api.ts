@@ -20,10 +20,7 @@ api.interceptors.request.use((config) => {
 
 export const authApi = {
 	login: async (credentials: LoginRequest) => {
-		const { data } = await api.post<AuthResponse>(
-			"/api/auth/login",
-			credentials
-		);
+		const { data } = await api.post<AuthResponse>("/auth/login", credentials);
 		localStorage.setItem("token", data.token);
 		return data;
 	},
