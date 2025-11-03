@@ -6,13 +6,14 @@ import com.hashim.devtrackr.DevTrackr.dto.RegisterRequest;
 import com.hashim.devtrackr.DevTrackr.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "#{@environment.getProperty('cors.allowed-origins').split(',')}", allowCredentials = "true")
 public class AuthController {
     private final AuthService authService;
 
