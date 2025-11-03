@@ -17,9 +17,9 @@ import {
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Project = {
-	id: string;
+	id: number;
 	name: string;
-	dueDate: string;
+	dueDate?: string;
 	status: "PENDING" | "COMPLETED" | "ACTIVE";
 };
 
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Project>[] = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(project.id)}
+							onClick={() => navigator.clipboard.writeText(project.id.toString())}
 						>
 							Copy project ID
 						</DropdownMenuItem>

@@ -29,13 +29,23 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
 	try {
-		const body = await request.json();
+		const { name, dueDate, description, status } = await request.json();
 
 		const response = await fetch(`${BACKEND_URL}/projects`, {
 			method: "POST",
 			headers: getAuthHeaders(request),
-			body: JSON.stringify(body),
+			body: JSON.stringify({
+				name,
+				description: description || "",
+				status: status || "PENDING",
+				dueDate,
+			}),
 		});
+
+		if (!response.ok) {
+			const error = await response.json();
+			return NextResponse.json(error, { status: response.status });
+		}
 
 		const data = await response.json();
 		return NextResponse.json(data, { status: response.status });
