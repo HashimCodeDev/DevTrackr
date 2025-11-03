@@ -1,10 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navigation() {
 	const pathname = usePathname();
+	const router = useRouter();
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		setIsLoggedIn(!!token);
+	}, []);
+
+	const handleLogout = () => {
+		localStorage.removeItem('token');
+		setIsLoggedIn(false);
+		router.push('/login');
+	};
 
 	return (
 		<nav className="border-b border-border bg-card/50 backdrop-blur-sm">
@@ -27,12 +41,21 @@ export default function Navigation() {
 						>
 							Projects
 						</Link>
-						<Link
-							href="/login"
-							className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-						>
-							Login
-						</Link>
+						{isLoggedIn ? (
+							<button
+								onClick={handleLogout}
+								className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+							>
+								Logout
+							</button>
+						) : (
+							<Link
+								href="/login"
+								className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+							>
+								Login
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

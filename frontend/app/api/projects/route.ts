@@ -12,10 +12,7 @@ function getAuthHeaders(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
 	try {
-		const { searchParams } = new URL(request.url);
-		const queryString = searchParams.toString();
-
-		const response = await fetch(`${BACKEND_URL}/projects?${queryString}`, {
+		const response = await fetch(`${BACKEND_URL}/projects/me`, {
 			headers: getAuthHeaders(request),
 		});
 		const data = await response.json();
