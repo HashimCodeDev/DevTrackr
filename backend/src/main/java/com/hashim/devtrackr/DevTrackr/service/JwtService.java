@@ -30,13 +30,13 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return buildToken(userDetails, jwtExpiration);
+    public String generateToken(String email) {
+        return buildToken(email, jwtExpiration);
     }
 
-    private String buildToken(UserDetails userDetails, long expiration) {
+    private String buildToken(String email, long expiration) {
         return Jwts.builder()
-                .subject(userDetails.getUsername()) // This should be email since UserDetails.getUsername() returns email
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())

@@ -33,7 +33,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user.getEmail());
         
         return new AuthResponse(jwtToken, user.getUsername(), user.getEmail());
     }
@@ -48,7 +48,7 @@ public class AuthService {
         
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user.getEmail());
         
         return new AuthResponse(jwtToken, user.getUsername(), user.getEmail());
     }
