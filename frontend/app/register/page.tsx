@@ -2,13 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import PixelBlast from "@/components/PixelBlast";
-import SpotlightCard from "@/components/SpotlightCard";
 
 export default function Register() {
-	const [username, setUsername] = useState("");
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const router = useRouter();
@@ -18,18 +17,24 @@ export default function Register() {
 		setLoading(true);
 		setError("");
 
+		if (password !== confirmPassword) {
+			setError("Passwords do not match");
+			setLoading(false);
+			return;
+		}
+
 		try {
 			const response = await fetch("/api/auth/register", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ username, email, password }),
+				body: JSON.stringify({ name, email, password }),
 			});
 
 			const data = await response.json();
 
 			if (response.ok) {
 				localStorage.setItem("token", data.token);
-				router.push("/dashboard");
+				router.push("/projects");
 			} else {
 				setError(data.error || "Registration failed");
 			}
@@ -42,129 +47,131 @@ export default function Register() {
 	};
 
 	return (
-		<div className="relative min-h-screen bg-custom-dark select-none overflow-hidden">
-			{/* Vignette Effect */}
-			<div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60 pointer-events-none z-20" />
-
-			{/* PixelBlast Background */}
-			<div className="absolute inset-0">
-				<PixelBlast
-					variant="circle"
-					pixelSize={6}
-					color="#C1E8FF"
-					patternScale={3}
-					patternDensity={1.2}
-					pixelSizeJitter={0.5}
-					enableRipples
-					rippleSpeed={0.4}
-					rippleThickness={0.12}
-					rippleIntensityScale={1.5}
-					speed={0.6}
-					edgeFade={0.25}
-					transparent
-				/>
+		<div className="min-h-screen bg-black flex items-center justify-center p-4">
+			{/* Background Effects */}
+			<div className="absolute inset-0 opacity-10">
+				<div className="w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_0%,transparent_50%)] bg-[length:60px_60px]" />
 			</div>
+			
+			{/* Main Container */}
+			<div className="w-full max-w-6xl mx-auto">
+				{/* Glass Container */}
+				<div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
+					<div className="grid lg:grid-cols-2 min-h-[700px]">
+						{/* Left Side - Form */}
+						<div className="p-8 lg:p-12 flex items-center">
+							<div className="w-full max-w-md mx-auto">
+								{/* Header */}
+								<div className="text-center mb-8">
+									<h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
+									<p className="text-white/70">Join DevTrackr and start managing your projects</p>
+								</div>
 
-			{/* Navigation */}
-			<div className="absolute top-8 left-0 w-full h-15 z-30 pointer-events-none">
-				<div className="mx-auto w-[90%] md:w-[60%] h-full rounded-[50px] py-4 px-6 flex items-center justify-between bg-white/5 backdrop-blur-[10px] border border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-					<Link
-						href="/"
-						className="text-white font-semibold text-xl pointer-events-auto hover:text-blue-200 transition-colors"
-					>
-						DevTrackr
-					</Link>
-					<div className="hidden md:flex items-center gap-6 font-semibold">
-						<span className="text-white text-base">Home</span>
-						<span className="text-white text-base">Features</span>
-						<span className="text-white text-base">About</span>
+								{/* Form */}
+								<form onSubmit={handleSubmit} className="space-y-5">
+									<div>
+										<label className="block text-sm font-medium text-white/90 mb-2">
+											Full Name
+										</label>
+										<input
+											type="text"
+											value={name}
+											onChange={(e) => setName(e.target.value)}
+											className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all"
+											placeholder="Enter your full name"
+											required
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-white/90 mb-2">
+											Email Address
+										</label>
+										<input
+											type="email"
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
+											className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all"
+											placeholder="Enter your email"
+											required
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-white/90 mb-2">
+											Password
+										</label>
+										<input
+											type="password"
+											value={password}
+											onChange={(e) => setPassword(e.target.value)}
+											className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all"
+											placeholder="Create a password"
+											required
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-white/90 mb-2">
+											Confirm Password
+										</label>
+										<input
+											type="password"
+											value={confirmPassword}
+											onChange={(e) => setConfirmPassword(e.target.value)}
+											className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all"
+											placeholder="Confirm your password"
+											required
+										/>
+									</div>
+
+									{error && (
+										<div className="text-red-300 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+											{error}
+										</div>
+									)}
+
+									<button
+										type="submit"
+										disabled={loading}
+										className="w-full py-3 px-6 bg-white text-black rounded-xl font-medium hover:bg-gray-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+									>
+										{loading ? "Creating Account..." : "Create Account"}
+									</button>
+								</form>
+
+								{/* Footer */}
+								<div className="text-center mt-8">
+									<p className="text-white/70 text-sm">
+										Already have an account?{" "}
+										<Link
+											href="/login"
+											className="text-white hover:text-gray-300 font-medium transition-colors"
+										>
+											Sign in here
+										</Link>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						{/* Right Side - Image */}
+						<div className="relative bg-black/50 p-8 flex items-center justify-center">
+							<div className="absolute inset-0 bg-gradient-to-br from-gray-800/10 to-gray-900/10" />
+							<div className="relative z-10 text-center">
+								<div className="w-32 h-32 mx-auto mb-8 bg-white/5 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+									<svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+										<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</div>
+								<h2 className="text-3xl font-bold text-white mb-4">Start Your Journey</h2>
+								<p className="text-white/70 text-lg leading-relaxed">
+									Join thousands of developers who trust DevTrackr to manage their projects efficiently and effectively.
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-
-			{/* Register Form */}
-			<div className="absolute top-0 left-0 flex items-center justify-center w-full h-full z-10">
-				<SpotlightCard
-					className="w-full max-w-md mx-4 bg-[#021024]/90 backdrop-blur-[10px] border-palette-medium/20"
-					spotlightColor="rgba(193, 232, 255, 0.15)"
-				>
-					<div className="text-center mb-8">
-						<h1 className="text-3xl font-bold text-white mb-2">
-							Join DevTrackr
-						</h1>
-						<p className="text-white/70">Create your account to get started</p>
-					</div>
-
-					<form onSubmit={handleSubmit} className="space-y-6">
-						<div>
-							<label className="block text-sm font-medium text-white/90 mb-2">
-								Username
-							</label>
-							<input
-								type="text"
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-								className="w-full px-4 py-3 bg-palette-dark/50 backdrop-blur-[10px] border border-palette-medium/30 rounded-[12px] text-white placeholder-palette-light focus:outline-none focus:ring-2 focus:ring-palette-lightest/50 focus:border-palette-lightest/50 transition-all"
-								placeholder="Enter your username"
-								required
-							/>
-						</div>
-
-						<div>
-							<label className="block text-sm font-medium text-white/90 mb-2">
-								Email
-							</label>
-							<input
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full px-4 py-3 bg-palette-dark/50 backdrop-blur-[10px] border border-palette-medium/30 rounded-[12px] text-white placeholder-palette-light focus:outline-none focus:ring-2 focus:ring-palette-lightest/50 focus:border-palette-lightest/50 transition-all"
-								placeholder="Enter your email"
-								required
-							/>
-						</div>
-
-						<div>
-							<label className="block text-sm font-medium text-white/90 mb-2">
-								Password
-							</label>
-							<input
-								type="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="w-full px-4 py-3 bg-palette-dark/50 backdrop-blur-[10px] border border-palette-medium/30 rounded-[12px] text-white placeholder-palette-light focus:outline-none focus:ring-2 focus:ring-palette-lightest/50 focus:border-palette-lightest/50 transition-all"
-								placeholder="Enter your password"
-								required
-							/>
-						</div>
-
-						{error && (
-							<div className="text-rose-300 text-sm bg-rose-500/10 border border-rose-500/20 rounded-xl px-3 py-2">
-								{error}
-							</div>
-						)}
-
-						<button
-							type="submit"
-							disabled={loading}
-							className="w-full py-3 px-6 bg-linear-to-r from-palette-medium to-palette-light text-[#021024] rounded-[12px] text-base font-medium hover:from-palette-light hover:to-palette-lightest hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 transition-all duration-200 shadow-lg hover:shadow-palette-lightest/25"
-						>
-							{loading ? "Creating Account..." : "Create Account"}
-						</button>
-					</form>
-
-					<div className="text-center mt-6">
-						<p className="text-white/70 text-sm">
-							Already have an account?{" "}
-							<Link
-								href="/login"
-								className="text-palette-light hover:text-palette-lightest font-medium transition-colors"
-							>
-								Sign In
-							</Link>
-						</p>
-					</div>
-				</SpotlightCard>
 			</div>
 		</div>
 	);
