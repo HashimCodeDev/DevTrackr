@@ -2,18 +2,21 @@ package com.hashim.devtrackr.DevTrackr.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
     
-    private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
+    @Value("${jwt.secret}")
+    private String jwtSecret;
     
     @Value("${jwt.expiration:86400000}")
     private Long jwtExpiration;
@@ -62,6 +65,7 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        return secretKey;
+        byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
