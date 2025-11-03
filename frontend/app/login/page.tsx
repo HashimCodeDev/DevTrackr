@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { authApi } from "@/lib/api";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -17,23 +18,10 @@ export default function Login() {
 		setError("");
 
 		try {
-			const response = await fetch("/api/auth/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-			});
-
-			const data = await response.json();
-
-			if (response.ok) {
-				localStorage.setItem("token", data.token);
-				router.push("/projects");
-			} else {
-				setError(data.error || "Login failed");
-			}
+			await authApi.login({ email, password });
+			router.push("/projects");
 		} catch (err) {
-			setError("Network error");
-			console.error(err);
+			setError(err instanceof Error ? err.message : "Login failed");
 		} finally {
 			setLoading(false);
 		}

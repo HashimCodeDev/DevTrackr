@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Project, ProjectFormData, ProjectFilters } from "@/types/project";
+import { LoginRequest, RegisterRequest, AuthResponse } from "@/types/auth";
 
 const api = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api",
@@ -7,6 +8,38 @@ const api = axios.create({
 		"Content-Type": "application/json",
 	},
 });
+
+// Add token to requests if available
+api.interceptors.request.use((config) => {
+	const token = localStorage.getItem("token");
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
+});
+
+export const authApi = {
+	login: async (credentials: LoginRequest) => {
+		const { data } = await api.post<AuthResponse>(
+			"/api/auth/login",
+			credentials
+		);
+		localStorage.setItem("token", data.token);
+		return data;
+	},
+
+	register: async (userData: RegisterRequest) => {
+		const { data } = await api.post<AuthResponse>("/auth/register", userData);
+		localStorage.setItem("token", data.token);
+		return data;
+	},
+
+	logout: () => {
+		localStorage.removeItem("token");
+	},
+
+	getToken: () => localStorage.getItem("token"),
+};
 
 export const projectsApi = {
 	getProjects: async (filters?: ProjectFilters) => {
