@@ -61,19 +61,20 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 						×
 					</button>
 
-					<div className="text-center mb-6">
-						<h1 className="text-2xl font-bold text-white mb-2">
-							{mode === "login" ? "Sign In" : "Create Account"}
-						</h1>
-						<p className="text-white/70 text-sm">
-							{mode === "login" 
-								? "Welcome back! Please sign in to your account"
-								: "Join DevTrackr and start managing your projects"
-							}
-						</p>
-					</div>
+					<div key={mode} className="animate-[fade-in_0.2s_ease-out]">
+						<div className="text-center mb-6">
+							<h1 className="text-2xl font-bold text-white mb-2">
+								{mode === "login" ? "Sign In" : "Create Account"}
+							</h1>
+							<p className="text-white/70 text-sm">
+								{mode === "login" 
+									? "Welcome back! Please sign in to your account"
+									: "Join DevTrackr and start managing your projects"
+								}
+							</p>
+						</div>
 
-					<form onSubmit={handleSubmit} className="space-y-4">
+						<form onSubmit={handleSubmit} className="space-y-4">
 						{mode === "register" && (
 							<input
 								type="text"
@@ -145,6 +146,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	);
 }
