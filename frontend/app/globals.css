@@ -52,11 +52,22 @@
 @keyframes fade-in {
 	from {
 		opacity: 0;
-		transform: translateY(-10px);
+		transform: translateY(10px);
 	}
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@keyframes blur-in {
+	from {
+		filter: blur(0px);
+		transform: scale(1);
+	}
+	to {
+		filter: blur(4px);
+		transform: scale(1.02);
 	}
 }
 
