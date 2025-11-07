@@ -53,7 +53,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 			/>
 			
 			<div className="relative w-full max-w-md mx-auto transform translate-y-4 opacity-0 animate-[fade-in_0.3s_ease-out_0.1s_forwards]" style={{animationFillMode: 'forwards'}}>
-				<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl shadow-2xl p-8">
+				<div className="bg-black/60 backdrop-blur-md border border-white/30 rounded-3xl shadow-2xl p-8">
 					<button
 						onClick={onClose}
 						className="absolute top-4 right-4 text-white/70 hover:text-white text-2xl"
@@ -79,7 +79,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 								type="text"
 								value={username}
 								onChange={(e) => setUsername(e.target.value)}
-								className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+								className="w-full px-4 py-3 bg-white/15 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
 								placeholder="Full name"
 								required
 							/>
@@ -89,7 +89,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 							type="email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+							className="w-full px-4 py-3 bg-white/15 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
 							placeholder="Email address"
 							required
 						/>
@@ -98,7 +98,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 							type="password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+							className="w-full px-4 py-3 bg-white/15 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
 							placeholder="Password"
 							required
 						/>
@@ -108,7 +108,7 @@ export default function AuthDialog({ isOpen, onClose, mode, onSwitchMode }: Auth
 								type="password"
 								value={confirmPassword}
 								onChange={(e) => setConfirmPassword(e.target.value)}
-								className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+								className="w-full px-4 py-3 bg-white/15 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
 								placeholder="Confirm password"
 								required
 							/>
